@@ -32,6 +32,12 @@ int main()
     fillRandomValues(array, size);
     printArray(array, size);
     calculateAndPrintTriangleTotals(array, size);
+
+    for (int i{}; i < size; ++i)
+    {
+        delete[] array[i];
+    }
+    delete[] array;
     return 0;
 }
 

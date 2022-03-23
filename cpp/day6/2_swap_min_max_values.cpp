@@ -38,6 +38,12 @@ int main()
     swapMinMaxValues(array, row, col);
     cout << "After" << endl;
     printArray(array, row, col);
+
+    for (int i{}; i < row; ++i)
+    {
+        delete[] array[i];
+    }
+    delete[] array;
     return 0;
 }
 
