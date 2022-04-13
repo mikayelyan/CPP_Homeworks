@@ -1,0 +1,15 @@
+Question: C++ was developed by ___, Bjarne Stroutstrup, Thomas Kushz, John Kemney, James Goling
+Question: Which one of the following is a keyword?, Switch, Size, Key, Jump
+Question: The modulus operator uses ___ character, %, +, *, /
+Question: What punctuation ends most lines of C++ code?, ;, ., :, }
+Question: Which of the following is not a correct variable type?, real, float, int, double
+Question: Which of the following is a correct comment?, /* Comment */, */ Comments */, ** Comment **, { Comment }
+Question: Which of the following is the correct operator to compare two variables?, ==, =, :=, equal
+Question: Which of the following special symbol allowed in a variable name?, _ (underscore), - (hyphen), | (pipeline), * (asterisk)
+Question: Which of the following is the correct usage of conditional operators used in C++?, max = a > b ? a > c ? a : c : b > c ? b : c, a > b ? c = 30 : c = 40, a > b ? c = 30, return (a > b) ? (a : b)
+Question: Which is not a loop structure?, Repeat Until, For, While, Do While
+Question: How many times is a do while loop guaranteed to loop?, 1, Infinitely, 0, Variable
+Question: Which of the following is the boolean operator for logical-and?, &&, &, |, |&
+Question: Which of the following shows the correct syntax for an if statement?, if ( expression ), if { expression }, expression if, if expression
+Question: Which of the following represents true condition?, All of them, 1, 61, -1
+Question: When does the code block following `while(x < 100)` execute?, When x is less than one hundred, When x is greater than one hundred, When x is equal to one hundred, While it wishes
