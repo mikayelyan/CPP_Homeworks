@@ -4,12 +4,15 @@
 #include <ctime>
 #include <algorithm>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
 #define YELLOW "\033[33m"
 #define WHITE "\033[37m"
 #define BLUE "\033[34m"
+#define totalQuestions 15
+#define totalAnswers 4
 
 struct Question
 {
@@ -34,14 +37,14 @@ int main()
     bool continuePlaying{true};
     bool help{false};
     int helpCount{};
-    while (questionIndex < 15)
+    while (questionIndex < totalQuestions)
     {
         if (continuePlaying)
         {
 
             Question current = questionsList[questionIndex];
+            cout << YELLOW << questionIndex + 1 << ". " << current.question << WHITE << endl;
             int correctIndex = getAnswers(current, help);
-            cout << YELLOW << questionIndex << ". " << current.question << WHITE << endl;
             if (helpCount < 3)
                 cout << BLUE << "Type 'help' for 50/50: " << (3 - helpCount) << " left." << WHITE << endl;
             string answer{};
@@ -54,19 +57,29 @@ int main()
             }
             if (answer == "help")
             {
-                if (helpCount < 4)
+                if (helpCount < 3 && !help)
                 {
                     help = true;
                     helpCount++;
                 }
+                else if (helpCount < 3 && help)
+                {
+                    cout << setw(26) << setfill('=') << "" << endl;
+                    cout << "Hint already taken!" << endl;
+                    cout << setw(26) << setfill('=') << "" << endl;
+                }
                 else
+                {
+                    cout << setw(26) << setfill('=') << "" << endl;
                     cout << "Sorry! No more hints left." << endl;
+                    cout << setw(26) << setfill('=') << "" << endl;
+                }
             }
             else if (!isdigit(answer[0]) || answer.length() > 1)
             {
                 cout << "Wrong Input! Try Again" << endl;
             }
-            else if ((stoi(answer) < 0 || stoi(answer) > 4))
+            else if ((stoi(answer) < 0 || stoi(answer) > totalAnswers))
             {
                 cout << "Wrong input. Try again" << endl;
             }
@@ -74,9 +87,9 @@ int main()
             {
                 if (help)
                     help = false;
-                questionIndex++;
                 printWinningTable(questionIndex, winningTable);
-                if (questionIndex == 15)
+                questionIndex++;
+                if (questionIndex == totalQuestions)
                 {
                     cout << "Congratulations! You've won 1000000" << endl;
                     return 0;
@@ -101,7 +114,7 @@ int main()
             else if (answerInt != correctIndex)
             {
                 int winningAmount = questionIndex > 9 ? 32000 : questionIndex > 4 ? 1000
-                                                                                    : 0;
+                                                                                  : 0;
                 cout << "Game Over" << endl;
                 cout << "You've won: " << winningAmount << endl;
                 return 0;
@@ -109,11 +122,15 @@ int main()
         }
         else
         {
-            cout << "Congratulations! You've won " << winningTable[questionIndex] << "$" << endl;
+            cout << "Congratulations! You've won " << winningTable[questionIndex - 1] << "$" << endl;
             return 0;
         }
     }
 
+    for (int i{}; i < totalQuestions; ++i)
+    {
+        delete[] questionsList[i].incorrectAnswers;
+    }
     delete[] questionsList;
     delete[] winningTable;
     return 0;
@@ -121,12 +138,12 @@ int main()
 
 int getAnswers(Question question, bool help)
 {
-    string answers[4];
+    string answers[totalAnswers];
     srand(time(nullptr));
-    int corretQuestionIndex = rand() % 4 + 0;
+    int corretQuestionIndex = rand() % totalAnswers + 0;
     answers[corretQuestionIndex] = question.correctAnswer;
     int index{};
-    for (int i{}; i < 4; ++i)
+    for (int i{}; i < totalAnswers; ++i)
     {
         if (i != corretQuestionIndex)
         {
@@ -137,7 +154,7 @@ int getAnswers(Question question, bool help)
             }
             else
             {
-                answers[i] = question.incorrectAnswers[rand() % 3 + 0];
+                answers[i] = question.incorrectAnswers[rand() % (totalAnswers - 1) + 0];
                 break;
             }
         }
@@ -148,7 +165,7 @@ int getAnswers(Question question, bool help)
 
 void printAnswers(const string answers[])
 {
-    for (int i{}; i < 4; ++i)
+    for (int i{}; i < totalAnswers; ++i)
     {
         cout << i + 1 << ". " << answers[i] << endl;
     }
@@ -156,7 +173,7 @@ void printAnswers(const string answers[])
 
 Question *initQuestionsData()
 {
-    Question *questionsList = new Question[15];
+    Question *questionsList = new Question[totalQuestions];
     int listIndex{};
     ifstream data;
     data.open("questions.txt");
@@ -194,29 +211,27 @@ Question *initQuestionsData()
 
 int *initWinningTable()
 {
-    int *table = new int[15];
-    table[0] = 100;
-    table[1] = 200;
-    table[2] = 300;
-    table[3] = 500;
-    table[4] = 1000;
-    table[5] = 2000;
-    table[6] = 4000;
-    table[7] = 8000;
-    table[8] = 16000;
-    table[9] = 32000;
-    table[10] = 64000;
-    table[11] = 125000;
-    table[12] = 250000;
-    table[13] = 500000;
-    table[14] = 1000000;
-
+    int *table = new int[totalQuestions]{
+        100,
+        200,
+        300,
+        500,
+        1000,
+        2000,
+        4000,
+        8000,
+        16000,
+        32000,
+        64000,
+        125000,
+        500000,
+        1000000};
     return table;
 }
 
 void printWinningTable(int index, int *table)
 {
-    for (int i{14}; i >= 0; --i)
+    for (int i{totalQuestions - 1}; i >= 0; --i)
     {
         if (i == index)
             cout << BLUE << table[i] << WHITE << endl;
